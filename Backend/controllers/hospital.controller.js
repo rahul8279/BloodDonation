@@ -160,7 +160,6 @@ export const getHospitalById = async (req, res) => {
       hospital,
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({
       message: "Server error",
       success: false,
