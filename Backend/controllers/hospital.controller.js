@@ -6,8 +6,9 @@ export const register = async (req, res) => {
   try {
     // GET THE NAME,EMAIL,PASSWORD FROM REQ.BODY
     // CHECK ALL DATA IS COMING FROM REQ.BODY
-    const { name, email, password, phoneNumber } = req.body;
-    if (!name || !email || !password || !phoneNumber) {
+
+    const { name, email, password} = req.body;
+    if (!name || !email || !password) {
       return res.status(400).json({
         message: "All fields are required",
         success: false,
@@ -27,7 +28,6 @@ export const register = async (req, res) => {
       name,
       email,
       password,
-      phoneNumber,
     });
     return res.status(201).json({
       message: "Hospital registered successfully",
@@ -46,6 +46,7 @@ export const login = async (req, res) => {
   try {
     // GET THE EMAIL AND PASSWORD FROM REQ.BODY
     // CHECK ALL DATA IS COMING FROM REQ.BODY
+    
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
@@ -55,7 +56,7 @@ export const login = async (req, res) => {
     }
     // CHECK IN DATABASE IF USER IS EXIT OR NOT BY EMAIL
     // IF NOT THEN THROW THE ERROR
-    const hospital = await Hospital.findOne({ email });
+    let hospital = await Hospital.findOne({ email });
     if (!hospital) {
       return res.status(400).json({
         message: "Invalid email or password",
@@ -64,6 +65,7 @@ export const login = async (req, res) => {
     }
     // CHECK THE PASSWORD BY USING BCRYPT COMPARE FUNCTION
     // IF PASSWORD IS NOT MATCH THEN THROW THE ERROR
+
     const isMatch = await hospital.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({
@@ -83,11 +85,10 @@ export const login = async (req, res) => {
       _id: hospital._id,
       email: hospital.email,
       name: hospital.name,
-      phoneNumber: hospital.phoneNumber,
     };
     return res
       .status(200)
-      .cookoie("token", token, {
+      .cookie("token", token, {
         httpOnly: true,
         maxAge: 1 * 24 * 60 * 60 * 1000,
         sameSite: "strict",
@@ -160,9 +161,53 @@ export const getHospitalById = async (req, res) => {
       hospital,
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       message: "Server error",
       success: false,
     });
   }
 };
+export const UpdateBloodBank = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { A_pos, A_neg, B_pos, B_neg, AB_pos, AB_neg, O_pos, O_neg } =
+      req.body;
+
+    // Find the hospital by ID
+    const hospital = await Hospital.findById(id);
+    if (!hospital) {
+      return res.status(404).json({
+        message: "Hospital not found",
+        success: false,
+      });
+    }
+
+    // Update the blood bank details
+    hospital.bloodBank = {
+      A_pos,
+      A_neg,
+      B_pos,
+      B_neg,
+      AB_pos,
+      AB_neg,
+      O_pos,
+      O_neg,
+    };
+    await hospital.save();
+
+    return res.status(200).json({
+      hospital,
+      message: "Blood bank updated successfully",
+      success: true,
+    });
+    
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error",
+      success: false,
+    });
+    
+  }
+}
