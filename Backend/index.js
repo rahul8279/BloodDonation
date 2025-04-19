@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import connectDB from './config/dbConnection.js';
 import userRoute from  './routes/user.route.js';
+import hospitalRoute from './routes/hospital.route.js';
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 4000;
 
 app.use('/api/v1/user', userRoute);
-
+app.use('/api/v1/hospital', hospitalRoute);
 
 app.listen(PORT, () => {
     connectDB();
