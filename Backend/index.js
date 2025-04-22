@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config({});
-import  express from 'express';
+import  express, { request } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import connectDB from './config/dbConnection.js';
 import userRoute from  './routes/user.route.js';
 import hospitalRoute from './routes/hospital.route.js';
 import donationRoute from './routes/donation.route.js';
-
+import requestRoute from './routes/bloodRequest.route.js';
 const app = express();
 
 
@@ -25,6 +25,7 @@ const PORT = process.env.PORT || 4000;
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/hospital', hospitalRoute);
 app.use('/api/v1/donation', donationRoute);
+app.use('/api/v1/request', requestRoute);
 
 app.listen(PORT, () => {
     connectDB();

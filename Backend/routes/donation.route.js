@@ -5,7 +5,7 @@ import isAuthentication from '../middleware/isAuthentication.js';
 const router = express.Router();
 
 router.route("/createDonation").post(isAuthentication, createDonation);
-router.route("/getAllDonations").get(isAuthentication, getAllDonations);
+router.route("/getAllDonations").get( getAllDonations);
 router.route("/updateDonationStatus/:id").put(isAuthentication, updateDonationStatus);
 
 export default router;

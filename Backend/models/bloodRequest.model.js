@@ -7,7 +7,7 @@ const bloodRequestSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    bloodType: {
+    bloodGroup: {
       type: String,
       required: true,
       enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
@@ -33,10 +33,6 @@ const bloodRequestSchema = new mongoose.Schema(
     requestDate: {
       type: Date,
       default: Date.now,
-    },
-    neededBefore: {
-      type: Date,
-      required: true,
     },
     location: {
       type: {
