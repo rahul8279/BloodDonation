@@ -6,6 +6,7 @@ import cors from 'cors';
 import connectDB from './config/dbConnection.js';
 import userRoute from  './routes/user.route.js';
 import hospitalRoute from './routes/hospital.route.js';
+import donationRoute from './routes/donation.route.js';
 
 const app = express();
 
@@ -23,6 +24,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/hospital', hospitalRoute);
+app.use('/api/v1/donation', donationRoute);
 
 app.listen(PORT, () => {
     connectDB();

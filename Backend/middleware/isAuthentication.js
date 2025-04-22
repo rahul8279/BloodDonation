@@ -15,7 +15,7 @@ const isAuthentication =  async (req, res, next) => {
                 message: "Unauthorized access",
                 success: false,
             });
-        }
+        }  
         req.id = decoded.id;
         next();
     } catch (error) {

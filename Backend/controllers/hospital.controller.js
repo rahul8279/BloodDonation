@@ -76,7 +76,7 @@ export const login = async (req, res) => {
     // IF PASSWORD IS MATCH THEN CREATE THE JWT TOKEN AND SEND IT TO THE USER
     // AND RETURN THE USER DATA EXCEPT PASSWORD
     const tokenData = {
-      userId: hospital._id,
+      id: hospital._id,
     };
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",

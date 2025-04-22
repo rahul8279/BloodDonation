@@ -23,8 +23,21 @@ const donationSchema = new mongoose.Schema(
         weight: Number,
         anyMedications: String,
         allergies: String
-    }
-
+    },
+    lastDonationDate: {
+      type: Date,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      default: 1, // units of blood
+    },
+    status: {
+      type: String,
+      enum: ["pending", "accepted", "rejected"],
+      default: "pending",
+    },  
+    
   },
   { timestamps: true }
 );
